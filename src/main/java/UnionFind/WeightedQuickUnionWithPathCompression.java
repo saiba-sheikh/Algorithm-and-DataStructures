@@ -12,13 +12,11 @@ package UnionFind;
 public class WeightedQuickUnionWithPathCompression extends WeightedQuickUnion{
 
 	@Override
-	protected Height findRoot(int a) {
-		int height = 1;
+	protected int findRoot(int a) {
 		while(nodes[a] != a) {
 			nodes[a] = nodes[nodes[a]];
 			a = nodes[a];
-			height++;
 		}
-		return new Height(a, height);
+		return a;
 	}
 }

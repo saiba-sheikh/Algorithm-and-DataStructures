@@ -5,37 +5,40 @@ package UnionFind;
  * And thus, reducing both the union & find complexity to O(N + Mlog N )
  */
 public class WeightedQuickUnion extends QuickUnion{
-
+	int[] height;
+	
+	@Override
+	public void initilize(int N) {
+		height = new int[N + 1];
+		nodes =  new int[N + 1];
+		for(int i = 0; i <= N; i++) {
+			nodes[i] = i; 
+			height[i] = 0;
+		}
+	}
+		
 	@Override
 	public void union(int a, int b) {
 		//Complexity: O( log N )
 		System.out.println("Union : "+ a +" :: "+ b);
-		Height aId = findRoot(a);	
-		Height bId = findRoot(b);
-		if(aId.height > bId.height) {
-			nodes[aId.root] = nodes[bId.root];
+		int aId = findRoot(a);	
+		int bId = findRoot(b);
+		if(height[aId] < height[bId]) {
+			nodes[aId] = nodes[bId];
 		}
-		else
-			nodes[bId.root] = nodes[aId.root];
-
+		else {
+			nodes[bId] = nodes[aId];
+			height[aId]++;
+		}
 		System.out.println("Unioned");
 	}
 	
 	
-	protected Height findRoot(int a) {
-		int height = 1;
+	protected int findRoot(int a) {
 		while(nodes[a] != a) {
 			a = nodes[a];
-			height++;
 		}
-		return new Height(a, height);
+		return a;
 	}
-	class Height{
-		int root;
-		int height;
-		Height(int root, int height){
-			this.root = root;
-			this.height = height;
-		}
-	}
+
 }
